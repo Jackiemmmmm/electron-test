@@ -1,3 +1,5 @@
+const { ipcRenderer } = require("electron/renderer");
+
 const titleElement = document.getElementsByClassName(
   "x1rg5ohu x13faqbe _ao3e selectable-text copyable-text"
 );
@@ -81,26 +83,25 @@ setInterval(() => {
   }
 }, 1000);
 
-const getLeftSliderList = document.getElementsByClassName(
-  // "x10l6tqk xh8yej3 x1g42fcv"
-  "x1y332i5 x1n2onr6 x6ikm8r x10wlt62"
-);
+function checkAndAttachEventListener() {
+  const getLeftSliderList = document.getElementsByClassName(
+    "x1y332i5 x1n2onr6 x6ikm8r x10wlt62"
+  );
+  if (getLeftSliderList[0]) {
+    clearInterval(intervalId);
+    getLeftSliderList[0].addEventListener("click", function (event) {
+      setTimeout(function () {
+        const groupName = event.target.title;
+        const accountDesc = document.getElementsByClassName(
+          "x1iyjqo2 x6ikm8r x10wlt62 xlyipyv xuxw1ft _ao3e selectable-text copyable-text"
+        )[0];
+        if (accountDesc.title && groupName) {
+          const params = `account=${accountDesc.title}&groupName=${groupName}`;
+          ipcRenderer.send("get-params", params);
+        }
+      }, 5000);
+    });
+  }
+}
 
-getLeftSliderList[0].addEventListener("click", function (event) {
-  setTimeout(() => {
-    // const xhr = new XMLHttpRequest();
-    // const url = "https://www.naims.top/transfer/send/data";
-    // xhr.open("POST", url, true);
-    // xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    const groupName = event.target.title;
-    const accountDesc = document.getElementsByClassName(
-      "x1iyjqo2 x6ikm8r x10wlt62 xlyipyv xuxw1ft _ao3e selectable-text copyable-text"
-    )[0];
-    if (accountDesc.title && groupName) {
-      const params = `account=${accountDesc.title}&groupName=${groupName}`;
-      window.api.sendToMain(params);
-
-      // xhr.send(params);
-    }
-  }, 5000);
-});
+const intervalId = setInterval(checkAndAttachEventListener, 1000);

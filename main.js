@@ -1,6 +1,6 @@
 const { app, BrowserWindow, BrowserView } = require("electron/main");
 const path = require("path");
-const { ipcMain } = require("electron");
+const { ipcMain, net } = require("electron");
 
 const createWindow = () => {
   const mainWindow = new BrowserWindow({
@@ -13,9 +13,6 @@ const createWindow = () => {
       // devTools: true,
       contextIsolation: true,
       preload: path.resolve(__dirname, "content.js"),
-      // webPreferences: {
-      //   preload: path.join(__dirname, "preload.js"),
-      // },
     },
   });
   mainWindow.setBrowserView(view);
@@ -51,6 +48,17 @@ const createWindow = () => {
   ipcMain.on("get-params", (event, data) => {
     console.log("收到来自渲染进程的消息:", data);
     // 在这里处理收到的消息
+    const url = "https://www.naims.top/transfer/send/data";
+    const request = net.request({
+      method: "POST",
+      url: url,
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    });
+
+    request.write(data);
+    request.end();
   });
 };
 
