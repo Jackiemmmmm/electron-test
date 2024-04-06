@@ -1,20 +1,23 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self'"
-    />
-    <meta
-      http-equiv="X-Content-Security-Policy"
-      content="default-src 'self'; script-src 'self'"
-    />
-    <title>Hello from Electron renderer!</title>
-  </head>
-  <body>
-    <h1>Hello from Electron renderer!</h1>
-    <p>👋</p>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'" />
+  <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'" />
+  <title>Password valid!</title>
+  <link rel="stylesheet" href="./index.css" content="default-src 'self'; script-src 'self'">
+</head>
+
+<body>
+  <div class="root">
+    <h3>密码验证</h3>
+    <input type='password' id="password" placeholder="请输入密码" />
+    <button id="btn">提交</button>
+    <p>点击提交无反应，则说明密码错误。</p>
+  </div>
+  <script src="./rerender.js"></script>
+</body>
+
 </html>

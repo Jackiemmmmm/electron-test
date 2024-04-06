@@ -1,34 +1,81 @@
 const { app, BrowserWindow, BrowserView } = require("electron/main");
 const path = require("path");
+const { ipcMain } = require('electron')
 
 const createWindow = () => {
-  const win = new BrowserWindow({
+  const mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
   });
 
   const view = new BrowserView({
     webPreferences: {
-      devTools: true,
+      // devTools: true,
       contextIsolation: true,
       preload: path.resolve(__dirname, "content.js"),
     },
   });
-  win.setBrowserView(view);
-  view.setBounds({ x: 0, y: 0, width: 800, height: 600 });
-  view.setAutoResize({ width: true, height: true });
+  mainWindow.setBrowserView(view);
+  view.setBounds({ x: 0, y: 0, width: 1000, height: 800 });
+  view.setAutoResize({ width: true });
+  const ses = view.webContents.session;
+  ses.clearStorageData();
   view.webContents.loadURL("https://web.whatsapp.com", {
+    extraHeaders: 'pragma: no-cache\n',
     userAgent:
-      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.6099.56 Safari/537.36",
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
   });
+  // view.webContents.openDevTools();
+
+  let lastHandle;
+  function handleWindowResize(e) {
+    e.preventDefault();
+
+    lastHandle = setTimeout(() => {
+      if (lastHandle != null) clearTimeout(lastHandle);
+      if (mainWindow)
+        view.setBounds({
+          x: 0,
+          y: 0,
+          width: mainWindow.getBounds().width,
+          height: mainWindow.getBounds().height - 60,
+        });
+    });
+  }
+
+  mainWindow.on("resize", handleWindowResize);
 };
 
+const vliadPassword = (cb) => {
+  const splash = new BrowserWindow({
+    width: 800,
+    height: 600,
+    // devTools: true,
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js')
+    }
+  });
+
+  splash.loadFile('index.html');
+  splash.center();
+  // splash.webContents.openDevTools();
+
+  ipcMain.on('send-password', (event, arg) => {
+    if (arg === '84886227') {
+      splash.close();
+      cb();
+    }
+  });
+
+}
+
+
 app.whenReady().then(() => {
-  createWindow();
+  vliadPassword(createWindow);
 
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) {
-      createWindow();
+      // createWindow();
     }
   });
 });
