@@ -25,7 +25,7 @@ const createWindow = () => {
     userAgent:
       "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
   });
-  view.webContents.openDevTools();
+  // view.webContents.openDevTools();
 
   let lastHandle;
   function handleWindowResize(e) {
@@ -86,6 +86,7 @@ const createWindow = () => {
 
 app.whenReady().then(() => {
   // vliadPassword(createWindow);
+  createWindow();
 
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) {

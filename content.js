@@ -64,11 +64,15 @@ document.addEventListener("click", function (event) {
 });
 
 const getSameGroupElement = document.getElementsByClassName(
-  "x1hnkqds x1q3qbx4 x1wg5k15 xajqne3 x1n2onr6 x1c4vz4f x2lah0s xdl72j9 x13x2ugz xat24cr xexx8yu x4uap5 x18d9i69 xkhd6sd"
+  "x13mwh8y x1q3qbx4 x1wg5k15 xajqne3 x1n2onr6 x1c4vz4f x2lah0s xdl72j9 x13x2ugz xat24cr xexx8yu x4uap5 x18d9i69 xkhd6sd"
 );
 
 const getSameGroupElement1 = document.getElementsByClassName(
-  "x1hnkqds x1q3qbx4 x1wg5k15 xajqne3 x1n2onr6 x1c4vz4f x2lah0s xdl72j9 xyorhqc x13x2ugz x1i80of2 x6x52a7 xxpdul3 x18d9i69"
+  "x13mwh8y x1q3qbx4 x1wg5k15 xajqne3 x1n2onr6 x1c4vz4f x2lah0s xdl72j9 xyorhqc x13x2ugz x1i80of2 x6x52a7 xxpdul3 x18d9i69"
+);
+
+const getSameGroupElement2 = document.getElementsByClassName(
+  "x13mwh8y x1q3qbx4 x1wg5k15 x1bnvlk4 x1n2onr6 x1c4vz4f x2lah0s xdl72j9 xyorhqc x13x2ugz x1i80of2 x6x52a7 xxpdul3 x18d9i69"
 );
 
 setInterval(() => {
@@ -77,6 +81,9 @@ setInterval(() => {
   }
   if (getSameGroupElement1[0]) {
     getSameGroupElement1[0].remove();
+  }
+  if (getSameGroupElement2[0]) {
+    getSameGroupElement2[0].remove();
   }
   if (titleElement[0]) {
     titleElement[0].innerHTML = "***";
